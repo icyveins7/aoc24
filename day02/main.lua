@@ -52,3 +52,39 @@ for line in io.lines("./data.txt") do
 end
 
 print ("total safe: " .. cnt)
+
+--------------------------------------------
+local function makeSafe(orig)
+  for i = 1, #orig do
+    local arr = {}
+    for j = 1, #orig do
+      if j ~= i then
+        arr[#arr+1] = orig[j]
+      end
+    end
+    if isSafe(arr) then
+      return true
+    end
+  end
+  return false
+end
+
+--print(makeSafe({1,4,2,3}))
+
+local cnt = 0
+for line in io.lines("./data.txt") do
+  local arr = {}
+  for s in string.gmatch(line, "%S+") do
+    arr[#arr+1] = tonumber(s)
+  end
+  local safe = isSafe(arr)
+  if safe then
+    print(line)
+    cnt = cnt + 1
+  elseif makeSafe(arr) then
+    cnt = cnt + 1
+  end
+
+end
+
+print ("total safe with dampener: " .. cnt)
